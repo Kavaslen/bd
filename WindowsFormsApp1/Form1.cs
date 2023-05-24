@@ -64,5 +64,23 @@ namespace WindowsFormsApp1
         {
 
         }
+
+        private void UpdateData()
+        {
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            string updateSql = "UPDATE student SET age = @age, groupName = @groupName WHERE name = @name";
+            MySqlCommand updateCmd = new MySqlCommand(updateSql, conn);
+            updateCmd.Parameters.AddWithValue("@age", numericUpDown1.Value);
+            updateCmd.Parameters.AddWithValue("@groupName", textBox2.Text.Trim());
+            updateCmd.Parameters.AddWithValue("@name", textBox1.Text.Trim());
+            updateCmd.Prepare();
+            updateCmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
     }
 }
